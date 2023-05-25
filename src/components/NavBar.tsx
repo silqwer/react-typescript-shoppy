@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 
 const NavBar = (): JSX.Element => {
   return (
-    <header>
-      <Link to='/'>
+    <header className='flex justify-between p-2 border-b border-gray-300'>
+      <Link to='/' className='flex items-center text-4xl text-brand'>
         <FiShoppingBag />
         <h1>Shoppy</h1>
       </Link>
-      <nav>
+      <nav className='flex gap-4 font-semibold item-center'>
         <Link to='/products'>Product</Link>
         <Link to='/cart'>Cart</Link>
-        <Link to='/products/new'>
+        <Link to='/products/new' className='text-2xl'>
           <BsFillPencilFill />
         </Link>
         <button>Login</button>
