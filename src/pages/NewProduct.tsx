@@ -1,9 +1,5 @@
-import React from 'react'
+const NewProduct = (): JSX.Element => {
+  return <div>NewProduct</div>;
+};
 
-const NewProduct = () => {
-  return (
-    <div>NewProduct</div>
-  )
-}
-
-export default NewProduct
+export default NewProduct;

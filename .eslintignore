@@ -1,0 +1,6 @@
+src/react-app-env.d.ts
+src/reportWebVitals.ts
+src/setupTests.ts
+node_modules
+dist
+tailwind.config.js

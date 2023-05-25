@@ -1,9 +1,5 @@
-import React from 'react'
+const MyCart = (): JSX.Element => {
+  return <div>MyCart</div>;
+};
 
-const MyCart = () => {
-  return (
-    <div>MyCart</div>
-  )
-}
-
-export default MyCart
+export default MyCart;

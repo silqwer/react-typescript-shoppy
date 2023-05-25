@@ -1,9 +1,5 @@
-import React from 'react'
+const AllProducts = (): JSX.Element => {
+  return <div>AllProducts</div>;
+};
 
-const AllProducts = () => {
-  return (
-    <div>AllProducts</div>
-  )
-}
-
-export default AllProducts
+export default AllProducts;

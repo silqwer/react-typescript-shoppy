@@ -1,10 +1,11 @@
-
-
+import { Outlet } from 'react-router-dom';
+import NavBar from './components/NavBar';
 
 const App = (): JSX.Element => {
   return (
     <>
-      <h1>Shoppy</h1>
+      <NavBar />
+      <Outlet />
     </>
   );
 };
