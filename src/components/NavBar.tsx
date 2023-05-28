@@ -4,29 +4,23 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { FiShoppingBag } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { login, logout, onUserStateChange } from '../api/firebase';
+import UserAvatar from './UserAvatar';
 
 const NavBar: React.FC = () => {
   const [user, setUser] = useState<undefined | User>(undefined);
   const handleLogin = (): void => {
-    login()
-      .then(setUser)
-      .catch((error) => {
-        console.error(error);
-      });
+    login().catch((error) => {
+      console.error(error);
+    });
   };
   const handleLogout = (): void => {
-    logout()
-      .then(setUser)
-      .catch((error) => {
-        console.error(error);
-      });
+    logout().catch((error) => {
+      console.error(error);
+    });
   };
 
   useEffect(() => {
-    onUserStateChange((user: User) => {
-      console.log(user);
-      setUser(user);
-    });
+    onUserStateChange(setUser);
   }, []);
 
   return (
@@ -35,7 +29,7 @@ const NavBar: React.FC = () => {
         <FiShoppingBag />
         <h1>Shoppy</h1>
       </Link>
-      <nav className='flex gap-4 font-semibold item-center'>
+      <nav className='flex items-center gap-4 font-semibold'>
         <Link to='/products'>Product</Link>
         <Link to='/cart'>Cart</Link>
         <Link to='/products/new' className='text-2xl'>
@@ -43,7 +37,10 @@ const NavBar: React.FC = () => {
         </Link>
 
         {user !== undefined ? (
-          <button onClick={handleLogout}>Logout</button>
+          <>
+            <UserAvatar user={user} />
+            <button onClick={handleLogout}>Logout</button>
+          </>
         ) : (
           <button onClick={handleLogin}>Login</button>
         )}
