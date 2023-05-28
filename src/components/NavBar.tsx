@@ -1,13 +1,14 @@
-import { type User } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { FiShoppingBag } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { login, logout, onUserStateChange } from '../api/firebase';
+import { type ShoppyUser } from '../types/User';
+import Button from './common/Button';
 import UserAvatar from './UserAvatar';
 
 const NavBar: React.FC = () => {
-  const [user, setUser] = useState<undefined | User>(undefined);
+  const [user, setUser] = useState<undefined | ShoppyUser>(undefined);
   const handleLogin = (): void => {
     login().catch((error) => {
       console.error(error);
@@ -17,6 +18,18 @@ const NavBar: React.FC = () => {
     logout().catch((error) => {
       console.error(error);
     });
+  };
+
+  const isAdmin = (user: ShoppyUser): JSX.Element => {
+    if (user.isAdmin) {
+      return (
+        <Link to='/products/new' className='text-2xl'>
+          <BsFillPencilFill />
+        </Link>
+      );
+    } else {
+      return <></>;
+    }
   };
 
   useEffect(() => {
@@ -32,17 +45,16 @@ const NavBar: React.FC = () => {
       <nav className='flex items-center gap-4 font-semibold'>
         <Link to='/products'>Product</Link>
         <Link to='/cart'>Cart</Link>
-        <Link to='/products/new' className='text-2xl'>
-          <BsFillPencilFill />
-        </Link>
+
+        {user !== undefined && isAdmin(user)}
 
         {user !== undefined ? (
           <>
             <UserAvatar user={user} />
-            <button onClick={handleLogout}>Logout</button>
+            <Button text='Logout' onClick={handleLogout} />
           </>
         ) : (
-          <button onClick={handleLogin}>Login</button>
+          <Button text='Login' onClick={handleLogin} />
         )}
       </nav>
     </header>
