@@ -17,28 +17,11 @@ const provider = new GoogleAuthProvider();
 console.log(provider);
 
 export const login = async () => {
-  return await signInWithPopup(auth, provider)
-    .then((result) => {
-      const { user } = result;
-      return user;
-    })
-    .catch((error) => {
-      console.error('[Google login error]: ', error);
-      return undefined;
-    });
+  await signInWithPopup(auth, provider);
 };
 
 export const logout = async () => {
-  return await signOut(auth)
-    .then(() => {
-      // Sign-out successful.
-      return undefined;
-    })
-    .catch((error) => {
-      // An error happened.
-      console.error('[Google logout error]: ', error);
-      return undefined;
-    });
+  await signOut(auth);
 };
 
 export const onUserStateChange = (callback) => {
