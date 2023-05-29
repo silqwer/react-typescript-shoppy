@@ -1,4 +1,4 @@
-const MyCart = (): JSX.Element => {
+const MyCart: React.FC = () => {
   return <div>MyCart</div>;
 };
 
