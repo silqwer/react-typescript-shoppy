@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { uploadImage } from '../api/uploader';
 import Button from '../components/common/Button';
 
 interface Product {
@@ -20,7 +21,6 @@ const NewProduct: React.FC = () => {
     options: ''
   });
   const [file, setFile] = useState<File | null>(null);
-  console.log(file);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value, files } = event.target;
 
@@ -33,6 +33,16 @@ const NewProduct: React.FC = () => {
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+    if (file !== null) {
+      uploadImage(file)
+        .then((url) => {
+          console.log(url);
+          return url;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   return (
