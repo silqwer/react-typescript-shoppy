@@ -1,4 +1,4 @@
-const NewProduct = (): JSX.Element => {
+const NewProduct: React.FC = () => {
   return <div>NewProduct</div>;
 };
 

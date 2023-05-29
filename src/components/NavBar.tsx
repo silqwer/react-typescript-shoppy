@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { FiShoppingBag } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { login, logout, onUserStateChange } from '../api/firebase';
 import { type ShoppyUser } from '../types/User';
 import Button from './common/Button';
+import { useAuthContext } from './context/AuthContext';
 import UserAvatar from './UserAvatar';
 
 const NavBar: React.FC = () => {
-  const [user, setUser] = useState<undefined | ShoppyUser>(undefined);
+  const { user, login, logout } = useAuthContext();
+
   const handleLogin = (): void => {
     login().catch((error) => {
       console.error(error);
@@ -32,10 +32,6 @@ const NavBar: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    onUserStateChange(setUser);
-  }, []);
-
   return (
     <header className='flex justify-between p-2 border-b border-gray-300'>
       <Link to='/' className='flex items-center text-4xl text-brand'>
@@ -44,7 +40,8 @@ const NavBar: React.FC = () => {
       </Link>
       <nav className='flex items-center gap-4 font-semibold'>
         <Link to='/products'>Product</Link>
-        <Link to='/cart'>Cart</Link>
+
+        {user !== undefined && <Link to='/cart'>Cart</Link>}
 
         {user !== undefined && isAdmin(user)}
 
