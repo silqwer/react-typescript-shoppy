@@ -36,3 +36,7 @@
 - REACT_APP_DATABASE_URL=database-url
 
 - REACT_APP_PROJECT_ID=project-id
+
+- REACT_APP_CLOUDINARY_PRESET=cloudinary-preset
+
+- REACT_APP_CLOUDINARY_URL=https://api.cloudinary.com/v1_1/[your-cloud-name]/image/upload
