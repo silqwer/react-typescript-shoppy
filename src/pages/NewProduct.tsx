@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { addNewProduct } from '../api/firebase';
 import { uploadImage } from '../api/uploader';
 import Button from '../components/common/Button';
 
@@ -37,7 +38,7 @@ const NewProduct: React.FC = () => {
       uploadImage(file)
         .then((url) => {
           console.log(url);
-          return url;
+          addNewProduct(product, url).catch(console.error);
         })
         .catch((error) => {
           console.error(error);
