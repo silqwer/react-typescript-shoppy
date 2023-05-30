@@ -54,6 +54,7 @@ export const onUserStateChange = (callback) => {
 
 export const addNewProduct = async (product, imageUrl) => {
   const id = uuid();
+
   return await set(child(dbRef, `products/${id}`), {
     ...product,
     id,
