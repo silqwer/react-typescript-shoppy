@@ -54,7 +54,8 @@ export const onUserStateChange = (callback) => {
 
 export const addNewProduct = async (product, imageUrl) => {
   const id = uuid();
-  await set(child(dbRef, `products/${id}`), {
+
+  return await set(child(dbRef, `products/${id}`), {
     ...product,
     id,
     price: parseInt(product.price),

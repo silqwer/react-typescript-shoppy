@@ -22,6 +22,9 @@ const NewProduct: React.FC = () => {
     options: ''
   });
   const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value, files } = event.target;
 
@@ -32,13 +35,26 @@ const NewProduct: React.FC = () => {
 
     setProduct((product) => ({ ...product, [name]: value }));
   };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+    setIsUploading(true);
     if (file !== null) {
       uploadImage(file)
         .then((url) => {
           console.log(url);
-          addNewProduct(product, url).catch(console.error);
+          addNewProduct(product, url)
+            .then(() => {
+              setSuccess(true);
+              setTimeout(() => {
+                setSuccess(false);
+              }, 4000);
+            })
+            .catch(console.error);
+        })
+        .finally(() => {
+          setIsUploading(false);
+
         })
         .catch((error) => {
           console.error(error);
@@ -47,9 +63,11 @@ const NewProduct: React.FC = () => {
   };
 
   return (
-    <section>
-      {file !== null && <img src={URL.createObjectURL(file)} alt='local file' />}
-      <form onSubmit={handleSubmit}>
+    <section className='w-full text-center'>
+      <h2 className='my-4 text-2xl font-bold'>새로운 제품 등록</h2>
+      {success && <p className='my-2'>✅ 성공적으로 제품이 추가되었습니다.</p>}
+      {file !== null && <img className='mx-auto w-96 mb-b' src={URL.createObjectURL(file)} alt='local file' />}
+      <form className='flex flex-col px-12' onSubmit={handleSubmit}>
         <input type='file' accept='image/*' name='file' required onChange={handleChange} />
         <input
           type='text'
@@ -91,7 +109,7 @@ const NewProduct: React.FC = () => {
           required
           onChange={handleChange}
         />
-        <Button text='제품 등록하기' />
+        <Button text={isUploading ? '업로드중...' : '제품 등록하기'} disabled={isUploading} />
       </form>
     </section>
   );
