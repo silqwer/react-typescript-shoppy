@@ -63,3 +63,13 @@ export const addNewProduct = async (product, imageUrl) => {
     options: product.options.split(',')
   });
 };
+
+export const getProducts = async () => {
+  return await get(child(dbRef, 'products')).then((snapshot) => {
+    if (snapshot.exists()) {
+      return Object.values(snapshot.val());
+    }
+
+    return [];
+  });
+};

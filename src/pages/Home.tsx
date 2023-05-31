@@ -1,5 +1,13 @@
+import Banner from '../components/Banner';
+import Products from '../components/Products';
+
 const Home: React.FC = () => {
-  return <div>Home</div>;
+  return (
+    <>
+      <Banner />
+      <Products />
+    </>
+  );
 };
 
 export default Home;
