@@ -1,5 +1,7 @@
+import Products from '../components/Products';
+
 const AllProducts: React.FC = () => {
-  return <div>AllProducts</div>;
+  return <Products />;
 };
 
 export default AllProducts;
