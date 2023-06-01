@@ -54,7 +54,6 @@ const NewProduct: React.FC = () => {
         })
         .finally(() => {
           setIsUploading(false);
-
         })
         .catch((error) => {
           console.error(error);

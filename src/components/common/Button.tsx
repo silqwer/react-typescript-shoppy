@@ -3,7 +3,7 @@ import React from 'react';
 interface ButtonProps {
   text: string;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({ text, onClick, disabled }) => {
