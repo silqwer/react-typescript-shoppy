@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { addOrUpdateToCart } from '../api/firebase';
 import Button from '../components/common/Button';
+import { useAuthContext } from '../components/context/AuthContext';
 
 const ProductDetail: React.FC = () => {
+  const { user } = useAuthContext();
+
   const {
-    state: { image, title, category, price, options, description }
+    state: { id, image, title, category, price, options, description }
   } = useLocation();
 
   const [selected, setSelected] = useState<string>('');
@@ -14,7 +18,17 @@ const ProductDetail: React.FC = () => {
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    console.log('ddd');
+    if (user !== undefined) {
+      const { uid } = user;
+      const product = { id, image, title, price, option: selected, quantity: 1 };
+      addOrUpdateToCart(uid, product)
+        .then(() => {
+          alert('장바구니에 제품을 담았습니다.');
+        })
+        .catch(console.error);
+    } else {
+      alert('로그인 사용자 정보가 없습니다.');
+    }
   };
 
   return (

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, ref, child, get, set } from 'firebase/database';
+import { getDatabase, ref, child, get, set, remove } from 'firebase/database';
 import { v4 as uuid } from 'uuid';
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -72,4 +72,19 @@ export const getProducts = async () => {
 
     return [];
   });
+};
+
+export const getCart = async (userId) => {
+  return await get(child(dbRef, `carts/${userId}`)).then((snapshot) => {
+    const items = snapshot.val() || {};
+    return Object.values(items);
+  });
+};
+
+export const addOrUpdateToCart = async (userId, product) => {
+  return await set(child(dbRef, `carts/${userId}/${product.id}`), product);
+};
+
+export const removeFromCart = async (userId, productId) => {
+  return await remove(child(dbRef, `carts/${userId}/${productId}`));
 };
