@@ -7,3 +7,12 @@ export interface Product {
   price: number;
   title: string;
 }
+
+export interface NewProduct {
+  category: string;
+  description: string;
+  options: string;
+  price: number;
+  title: string;
+  file: string;
+}

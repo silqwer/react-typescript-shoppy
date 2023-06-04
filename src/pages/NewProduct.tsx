@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
-import { addNewProduct } from '../api/firebase';
 import { uploadImage } from '../api/uploader';
 import Button from '../components/common/Button';
-
-interface Product {
-  file: File | null;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  options: string;
-}
+import { useProducts } from '../hooks/useProducts';
+import { type NewProduct as NewProductItem } from '../types/Product';
 
 const NewProduct: React.FC = () => {
-  const [product, setProduct] = useState<Product>({
-    file: null,
+  const [product, setProduct] = useState<NewProductItem>({
+    file: '',
     title: '',
     price: 0,
     category: '',
@@ -24,6 +16,7 @@ const NewProduct: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const { addProduct } = useProducts();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value, files } = event.target;
@@ -42,15 +35,17 @@ const NewProduct: React.FC = () => {
     if (file !== null) {
       uploadImage(file)
         .then((url) => {
-          console.log(url);
-          addNewProduct(product, url)
-            .then(() => {
-              setSuccess(true);
-              setTimeout(() => {
-                setSuccess(false);
-              }, 4000);
-            })
-            .catch(console.error);
+          addProduct.mutate(
+            { product, url },
+            {
+              onSuccess: () => {
+                setSuccess(true);
+                setTimeout(() => {
+                  setSuccess(false);
+                }, 4000);
+              }
+            }
+          );
         })
         .finally(() => {
           setIsUploading(false);
