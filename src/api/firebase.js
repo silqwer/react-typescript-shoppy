@@ -75,6 +75,7 @@ export const getProducts = async () => {
 };
 
 export const getCart = async (userId) => {
+  console.log('getCart:', userId);
   return await get(child(dbRef, `carts/${userId}`)).then((snapshot) => {
     const items = snapshot.val() || {};
     return Object.values(items);
