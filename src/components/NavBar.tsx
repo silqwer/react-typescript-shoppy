@@ -2,6 +2,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { FiShoppingBag } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { type ShoppyUser } from '../types/User';
+import CartStatus from './CartStatus';
 import Button from './common/Button';
 import { useAuthContext } from './context/AuthContext';
 import UserAvatar from './UserAvatar';
@@ -41,7 +42,11 @@ const NavBar: React.FC = () => {
       <nav className='flex items-center gap-4 font-semibold'>
         <Link to='/products'>Product</Link>
 
-        {user !== undefined && <Link to='/cart'>Cart</Link>}
+        {user !== undefined && (
+          <Link to='/cart'>
+            <CartStatus />
+          </Link>
+        )}
 
         {user !== undefined && isAdmin(user)}
 
