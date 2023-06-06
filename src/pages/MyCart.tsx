@@ -1,11 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 import { FaEquals } from 'react-icons/fa';
-import { getCart } from '../api/firebase';
 import CartItem from '../components/CartItem';
 import Button from '../components/common/Button';
 import { useAuthContext } from '../components/context/AuthContext';
 import PriceCard from '../components/PriceCard';
+import { useCart } from '../hooks/useCart';
 import { type CartItem as ProductInCart } from '../types/CartItem';
 import { type ShoppyUser } from '../types/User';
 
@@ -14,7 +13,8 @@ const SHIPPING = 3000;
 const MyCart: React.FC = () => {
   const { user } = useAuthContext();
   const { uid } = user as ShoppyUser;
-  const { isLoading, data: products } = useQuery(['carts'], async () => await getCart(uid));
+  const { cartQuery } = useCart();
+  const { isLoading, data: products } = cartQuery;
 
   if (isLoading) {
     return <p>Loading...</p>;

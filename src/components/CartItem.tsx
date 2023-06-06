@@ -1,7 +1,7 @@
 import React from 'react';
 import { AiOutlineMinusSquare, AiOutlinePlusSquare } from 'react-icons/ai';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
-import { addOrUpdateToCart, removeFromCart } from '../api/firebase';
+import { useCart } from '../hooks/useCart';
 import { type CartItem as ProductInCard } from '../types/CartItem';
 
 interface Props {
@@ -13,17 +13,16 @@ const ICON_CLASS = 'mx-1 transition-all cursor-pointer hover:text-brand hover:sc
 
 const CartItem: React.FC<Props> = ({ product, uid }) => {
   const { id, image, title, option, quantity, price } = product;
-
+  const { addOrUpdateItem, removeItem } = useCart();
   const handleMinus = (): void => {
     if (quantity < 2) return;
-    addOrUpdateToCart(uid, { ...product, quantity: quantity - 1 }).catch(console.error);
+    addOrUpdateItem.mutate({ ...product, quantity: quantity - 1 });
   };
   const handlePlus = (): void => {
-    console.log('handlePlus');
-    addOrUpdateToCart(uid, { ...product, quantity: quantity + 1 }).catch(console.error);
+    addOrUpdateItem.mutate({ ...product, quantity: quantity + 1 });
   };
   const handleDelete = (): void => {
-    removeFromCart(uid, id).catch(console.error);
+    removeItem.mutate(id);
   };
 
   return (
