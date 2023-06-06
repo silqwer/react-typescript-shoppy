@@ -1,34 +1,31 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { addOrUpdateToCart } from '../api/firebase';
 import Button from '../components/common/Button';
-import { useAuthContext } from '../components/context/AuthContext';
+import { useCart } from '../hooks/useCart';
 
 const ProductDetail: React.FC = () => {
-  const { user } = useAuthContext();
-
   const {
     state: { id, image, title, category, price, options, description }
   } = useLocation();
 
   const [selected, setSelected] = useState<string>('');
+  const [success, setSuccess] = useState<string>('');
+  const { addOrUpdateItem } = useCart();
 
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setSelected(event.target.value);
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    if (user !== undefined) {
-      const { uid } = user;
-      const product = { id, image, title, price, option: selected, quantity: 1 };
-      addOrUpdateToCart(uid, product)
-        .then(() => {
-          alert('장바구니에 제품을 담았습니다.');
-        })
-        .catch(console.error);
-    } else {
-      alert('로그인 사용자 정보가 없습니다.');
-    }
+    const product = { id, image, title, price, option: selected, quantity: 1 };
+    addOrUpdateItem.mutate(product, {
+      onSuccess: () => {
+        setSuccess('장바구니에 추가되었습니다.');
+        setTimeout(() => {
+          setSuccess('');
+        }, 3000);
+      }
+    });
   };
 
   return (
@@ -57,6 +54,7 @@ const ProductDetail: React.FC = () => {
               </select>
             </div>
           )}
+          {success !== '' && <p className='my-2'>{success}</p>}
           <Button text='장바구니에 추가' onClick={handleClick} />
         </div>
       </section>
