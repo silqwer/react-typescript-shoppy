@@ -40,3 +40,6 @@
 - REACT_APP_CLOUDINARY_PRESET=cloudinary-preset
 
 - REACT_APP_CLOUDINARY_URL=https://api.cloudinary.com/v1_1/[your-cloud-name]/image/upload
+
+### 사이트
+- meek-crostata-ae547b.netlify.app
